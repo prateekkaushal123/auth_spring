@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.project.user.service.entity.User;
 import com.project.user.service.entity.UserRequest;
 import com.project.user.service.services.UserService;
+import com.project.user.util.JwtUtil;
 
 import lombok.extern.log4j.Log4j;
 
@@ -20,6 +21,9 @@ import lombok.extern.log4j.Log4j;
 public class UserController {
 	@Autowired
 	UserService service;
+	
+	//@Autowired
+	//JwtUtil jwt;
 	
 	@GetMapping("/health")
 	public String respond() {
@@ -34,8 +38,9 @@ public class UserController {
 	}
 	
 	@PostMapping("/login")
-	public User insertUser(@RequestBody UserRequest userRequest) {
-		
-		return service.saveUser(new User(userRequest)); 
+	public String insertUser(@RequestBody UserRequest userRequest) {
+		JwtUtil jwt=new JwtUtil();
+		return jwt.generateToken(userRequest);
+		//return service.saveUser(new User(userRequest)); 
 	}
 }
